@@ -1,0 +1,198 @@
+﻿""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                  PlugList                                  "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+call plug#begin('D:\Editor\Vim\vimfiles\plugged')
+
+"美化
+Plug 'flazz/vim-colorschemes'
+Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'mhinz/vim-startify'
+"theme color
+Plug 'tomasr/molokai' | Plug 'altercation/solarized'
+Plug 'morhetz/gruvbox'
+
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/syntastic'
+
+call plug#end()
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                              plugin settings                               "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"set my leader
+"let mapleader=";"
+let mapleader="\<Space>"
+
+set nocompatible
+" Initialize plugin system
+filetype plugin indent on
+"加强版状态栏
+let g:airline_theme='molokai'
+let g:airline_powerline_fonts = 1
+
+" 配色方案
+set background=dark
+"colorscheme solarized
+"colorscheme molokai
+colorscheme gruvbox
+"colorscheme phd
+
+
+" 工程文件浏览
+" 使用 NERDTree 插件查看工程文件。设置快捷键，速记：file list
+nmap <Leader>f :NERDTreeToggle<CR>
+" 设置 NERDTree 子窗口宽度
+let NERDTreeWinSize=22
+" 设置 NERDTree 子窗口位置
+let NERDTreeWinPos="left"
+" 显示隐藏文件
+let NERDTreeShowHidden=1
+" NERDTree 子窗口中不显示冗余帮助信息
+let NERDTreeMinimalUI=1
+" 删除文件时自动删除文件对应 buffer
+let NERDTreeAutoDeleteBuffer=1
+
+"syntastic的语法分析
+let g:syntastic_check_on_open=1
+let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_wq = 0
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                               common setting                               "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+cd D:\Code\VimCode
+
+
+" 设置 gvim 显示字体
+set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h11
+
+set number
+"Show related row numbers
+set relativenumber
+
+" 取消菜单栏和导航栏  
+set guioptions-=m  
+set guioptions-=T  
+" 去除左右两边滚动条
+set go-=r
+set go-=L
+" 设置水平行数和竖直列数  
+set lines=30  
+set columns=90 
+
+" 总是显示状态栏
+set laststatus=2
+" 显示光标当前位置
+set ruler
+" 开启行号显示
+set number
+" 高亮显示当前行/列
+set cursorline
+set cursorcolumn
+" 高亮显示搜索结果
+set hlsearch
+"自动换行整词换行
+set wrap
+set linebreak
+"自动设置当前目录为正在编辑的目录
+set autochdir 	
+"在光标接近底端或顶端时，自动下滚或上滚
+set scrolloff=10 	
+
+set tenc=utf-8
+set encoding=utf-8
+set fileencodings=utf-8,chinese,latin-1
+if has("win32")
+    set fileencoding=chinese
+else
+    set fileencoding=utf-8
+endif
+"解决菜单乱码
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+"解决consle输出乱码
+language messages zh_CN.utf-8
+
+
+" 开启实时搜索功能
+set incsearch
+" 搜索时大小写不敏感
+set ignorecase
+" 关闭兼容模式
+set nocompatible
+" 没有八进制
+set nrformats=
+" vim 自身命令行模式智能补全
+set wildmenu
+"设置当文件在外部被修改，自动更新该文件
+set autoread         
+"设置不生成备份文件
+set nobackup   
+
+" 缩进
+" 自适应不同语言的智能缩进
+filetype indent on
+" 将制表符扩展为空格
+set expandtab
+" 设置编辑时制表符占用空格数
+set tabstop=4
+" 设置格式化时制表符占用空格数
+set shiftwidth=4
+" 让 vim 把连续数量的空格视为一个制表符
+set softtabstop=4
+"退格键不能用问题
+set backspace=indent,eol,start
+
+syntax on
+syntax enable
+set autoread
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                               keyboard-binding                             "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" 设置快捷键将选中文本块复制至系统剪贴板
+vnoremap <Leader>y "+y
+" 设置快捷键将系统剪贴板内容粘贴至vim
+nmap <Leader>p "+p
+
+" 定义快捷键关闭当前分割窗口
+nmap <Leader>q :q<CR>
+" 定义快捷键保存当前窗口内容
+nmap <Leader>w :w<CR>
+" 定义快捷键保存所有窗口内容并退出 vim
+nmap <Leader>WQ :wa<CR>:q<CR>
+" 不做任何保存，直接退出 vim
+nmap <Leader>Q :qa!<CR>
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                   run                                   "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"编译运行
+map <F5> :call CompileRunGcc()<CR>  
+func! CompileRunGcc()  
+    exec "w"  
+    if &filetype == 'c'  
+        exec "!g++ % -o %<"  
+        exec "! %<"  
+    elseif &filetype == 'cpp'  
+        exec "!g++ % -o %<"  
+        exec "! %<"  
+    elseif &filetype == 'java'   
+        exec "!javac %"   
+        exec "!java %<"  
+    elseif &filetype == 'py'  
+        exec "!python"
+    elseif &filetype == 'sh'  
+        :!%  
+    endif  
+endfunc  
