@@ -1,263 +1,297 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                  PlugList                                  "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-call plug#begin('D:\Editor\Vim\vimfiles\plug')
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                           common setting                               "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Startup {{{
+filetype indent plugin on
 
-"ÃÀ»¯
-Plug 'flazz/vim-colorschemes'
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'mhinz/vim-startify'
-"theme color
-Plug 'tomasr/molokai'
-Plug 'morhetz/gruvbox'
+augroup vimrcEx
+    au!
+    autocmd FileType text setlocal textwidth=78
+augroup END
 
-Plug 'scrooloose/nerdtree'
-"ÎÄ¼şËÑË÷
-Plug 'Yggdroot/LeaderF'
-"Plug 'scrooloose/syntastic'
-Plug 'w0rp/ale'
-"À¨ºÅ²¹È«
-Plug 'jiangmiao/auto-pairs'
-"×¢ÊÍ´úÂë¹¤¾ß
-"\cc×¢ÊÍµ±Ç°ĞĞ \cu ³·Ïú×¢ÊÍµ±Ç°ĞĞ \cs sexily×¢ÊÍ \cA ĞĞÎ²×¢ÊÍ£¬ÇĞ»»³ÉÊäÈëÄ£Ê½
-Plug 'scrooloose/nerdcommenter'
-"±àÒëÔËĞĞ
-"F4 Ìí¼Ó×÷ÕßĞÅÏ¢£¬¸üĞÂ×÷ÕßĞÅÏ¢
-"F9 Ò»¼ü±£´æ¡¢±àÒë¡¢Á¬½Ó´æ²¢ÔËĞĞ
-"Ctrl + F9 Ò»¼ü±£´æ²¢±àÒë
-"Ctrl + F10 Ò»¼ü±£´æ²¢Á¬½Ó
-"F8 ±àÒëµ÷ÊÔ£¨½öÏŞÓÚµ¥ÎÄ¼ş)(gdb)
-Plug 'Svtter/ACM.vim'
+" vim æ–‡ä»¶æŠ˜å æ–¹å¼ä¸º marker
+augroup ft_vim
+    au!
+    autocmd FileType vim setlocal foldmethod=marker
 
-"×Ô¶¯²¹È«
-Plug 'ervandew/supertab'
-"×Ô¶¯µ¯³ö
-Plug 'vim-scripts/AutoComplPop'
+    " æ‰“å¼€æ–‡ä»¶æ€»æ˜¯å®šä½åˆ°ä¸Šæ¬¡ç¼–è¾‘çš„ä½ç½®
+    autocmd BufReadPost *
+      \ if line("'\"") > 1 && line("'\"") <= line("$") |
+      \   exe "normal! g`\"" |
+      \ endif
+augroup END
+" }}}
 
-
-call plug#end()
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                              plugin settings                               "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-"set my leader
-let mapleader=","
-"let mapleader=";"
-"let mapleader="\<Space>"
-
+" General {{{
 set nocompatible
-
-" Initialize plugin system
-filetype plugin indent on
-"¼ÓÇ¿°æ×´Ì¬À¸
-let g:airline_theme='molokai'
-"Ê¹ÓÃpowerline´ò¹ı²¹¶¡µÄ×ÖÌå
-let g:airline_powerline_fonts = 1
-
-"¹Ø±Õ×´Ì¬ÏÔÊ¾¿Õ°×·ûºÅ¼ÆÊı,Õâ¸ö¶ÔÎÒÓÃ´¦²»´ó"
-let g:airline#extensions#whitespace#enabled = 0
-let g:airline#extensions#whitespace#symbol = '!'
-"¿ªÆôtabline
-let g:airline#extensions#tabline#enabled = 1
-"tablineÖĞbufferÏÔÊ¾±àºÅ
-let g:airline#extensions#tabline#buffer_nr_show = 1
-
-
-
-" ÅäÉ«·½°¸
-set background=dark
-"colorscheme solarized
-"colorscheme molokai
-colorscheme gruvbox
-"colorscheme phd
-
-
-" ¹¤³ÌÎÄ¼şä¯ÀÀ
-" Ê¹ÓÃ NERDTree ²å¼ş²é¿´¹¤³ÌÎÄ¼ş¡£
-nmap <Leader>f :NERDTreeToggle<CR>
-" ÉèÖÃ NERDTree ×Ó´°¿Ú¿í¶È
-let NERDTreeWinSize=22
-" ÉèÖÃ NERDTree ×Ó´°¿ÚÎ»ÖÃ
-let NERDTreeWinPos="left"
-" ÏÔÊ¾Òş²ØÎÄ¼ş
-let NERDTreeShowHidden=1
-" NERDTree ×Ó´°¿ÚÖĞ²»ÏÔÊ¾ÈßÓà°ïÖúĞÅÏ¢
-let NERDTreeMinimalUI=1
-" É¾³ıÎÄ¼şÊ±×Ô¶¯É¾³ıÎÄ¼ş¶ÔÓ¦ buffer
-let NERDTreeAutoDeleteBuffer=1
-
-"ale
-"Ê¼ÖÕ¿ªÆô±êÖ¾ÁĞ
-let g:ale_sign_column_always = 1
-let g:ale_set_highlights = 0
-"ÏÔÊ¾LinterÃû³Æ,³ö´í»ò¾¯¸æµÈÏà¹ØĞÅÏ¢
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-"ÆÕÍ¨Ä£Ê½ÏÂ£¬spÇ°ÍùÉÏÒ»¸ö´íÎó»ò¾¯¸æ£¬snÇ°ÍùÏÂÒ»¸ö´íÎó»ò¾¯¸æ
-nmap sp <Plug>(ale_previous_wrap)
-nmap sn <Plug>(ale_next_wrap)
-"<Leader>s´¥·¢/¹Ø±ÕÓï·¨¼ì²é
-nmap <Leader>s :ALEToggle<CR>
-"<Leader>d²é¿´´íÎó»ò¾¯¸æµÄÏêÏ¸ĞÅÏ¢
-nmap <Leader>d :ALEDetail<CR>
-"ÎÄ¼şÄÚÈİ·¢Éú±ä»¯Ê±²»½øĞĞ¼ì²é
-"let g:ale_lint_on_text_changed = 'never'
-"´ò¿ªÎÄ¼şÊ±²»½øĞĞ¼ì²é
-"let g:ale_lint_on_enter = 0
-"¶ÔC/C++Ê¹ÓÃClang½øĞĞÓï·¨¼ì²é
-let g:ale_linters = {'c': 'clang'}
-let g:ale_linters = {'c++': 'clang++'}
-"½ûÓÃÁËjavascriptµÄeslint
-let g:ale_linters = {
-\   'javascript': ['eslint'],
-\}
-
-"LeaderF
-"ÕâÀï¶¨ÒåÁË CTRL+P ÔÚµ±Ç°ÏîÄ¿Ä¿Â¼´ò¿ªÎÄ¼şËÑË÷£¬CTRL+N ´ò¿ª MRUËÑË÷£¬ËÑË÷Äã×î½ü´ò¿ªµÄÎÄ¼ş£¬ÕâÁ½ÏîÊÇÎÒÓÃµÄ×îÆµ·±µÄ¹¦ÄÜ¡£½Ó×Å ALT+P ´ò¿ªº¯ÊıËÑË÷£¬ALT+N ´ò¿ª Buffer ËÑË÷
-let g:Lf_ShortcutF = '<c-p>'
-let g:Lf_ShortcutB = '<m-n>'
-noremap <c-n> :LeaderfMru<cr>
-noremap <m-p> :LeaderfFunction<cr>
-noremap <m-n> :LeaderfBuffer<cr>
-noremap <m-m> :LeaderfTag<cr>
-let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
-let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
-let g:Lf_WorkingDirectoryMode = 'Ac'
-let g:Lf_WindowHeight = 0.30
-let g:Lf_CacheDirectory = expand('~/.vim/cache')
-let g:Lf_ShowRelativePath = 0
-let g:Lf_HideHelp = 1
-let g:Lf_StlColorscheme = 'powerline'
-let g:Lf_NormalMap = {
-    \ "File":   [["<ESC>", ':exec g:Lf_py "fileExplManager.quit()"<CR>'],
-    \            ["<F6>", ':exec g:Lf_py "fileExplManager.quit()"<CR>'] ],
-    \ "Buffer": [["<ESC>", ':exec g:Lf_py "bufExplManager.quit()"<CR>'],
-    \            ["<F6>", ':exec g:Lf_py "bufExplManager.quit()"<CR>'] ],
-    \ "Mru":    [["<ESC>", ':exec g:Lf_py "mruExplManager.quit()"<CR>']],
-    \ "Tag":    [["<ESC>", ':exec g:Lf_py "tagExplManager.quit()"<CR>']],
-    \ "Function":    [["<ESC>", ':exec g:Lf_py "functionExplManager.quit()"<CR>']],
-    \ "Colorscheme":    [["<ESC>", ':exec g:Lf_py "colorschemeExplManager.quit()"<CR>']],
-    \ }
-
-"×Ô¶¯²¹È«
-"²¹È«Íê³ÉÊ±Ô¤ÀÀ´°¿Ú×Ô¶¯ÏûÊ§
-augroup complete
-  autocmd!
-  autocmd CompleteDone * pclose
-augroup end
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                               common setting                               "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nobackup
+set noswapfile
+set history=1024
+"è‡ªåŠ¨è®¾ç½®å½“å‰ç›®å½•ä¸ºæ­£åœ¨ç¼–è¾‘çš„ç›®å½•
 cd D:\Code\VimCode
+set autochdir
+autocmd BufEnter * silent! lcd %:p:h:gs/ /\\ /
 
+set whichwrap=b,s,<,>,[,]
+set nobomb
+set backspace=indent,eol,start whichwrap+=<,>,[,]
+" Vim çš„é»˜è®¤å¯„å­˜å™¨å’Œç³»ç»Ÿå‰ªè´´æ¿å…±äº«
+set clipboard+=unnamed
+" è®¾ç½® alt é”®ä¸æ˜ å°„åˆ°èœå•æ 
+set winaltkeys=no
 
-" ÉèÖÃ gvim ÏÔÊ¾×ÖÌå
-set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h11
+"å…³é—­æç¤ºéŸ³
+set noeb
+set vb t_vb=
+" }}}
 
+" Lang & Encoding {{{
+set fenc= 
+set fileencodings=utf-8,gb18030,utf-16,big5 
+set encoding=utf-8
+set langmenu=zh_CN
+let $LANG = 'en_US.UTF-8'
+"è§£å†³consleè¾“å‡ºä¹±ç 
+language messages zh_CN.utf-8
+"è§£å†³èœå•ä¹±ç 
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+" }}}
+
+" GUI {{{
+" è®¾ç½® gvim æ˜¾ç¤ºå­—ä½“
+"set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h12
+set guifont=Fira_Code:h12
+set gfw=å¹¼åœ†:h12:cGB2312
+
+set cursorline
+set hlsearch
+" å¼€å¯å®æ—¶æœç´¢åŠŸèƒ½
+set incsearch
+" æœç´¢æ—¶å¤§å°å†™ä¸æ•æ„Ÿ
+set ignorecase
 set number
 "Show related row numbers
 set relativenumber
+"åœ¨å…‰æ ‡æ¥è¿‘åº•ç«¯æˆ–é¡¶ç«¯æ—¶ï¼Œè‡ªåŠ¨ä¸‹æ»šæˆ–ä¸Šæ»š
+set scrolloff=10  
+" çª—å£å¤§å°
+set lines=30 columns=80
+" åˆ†å‰²å‡ºæ¥çš„çª—å£ä½äºå½“å‰çª—å£ä¸‹è¾¹/å³è¾¹
+set splitbelow
+set splitright
+"ä¸æ˜¾ç¤ºå·¥å…·/èœå•æ 
+set guioptions-=T
+set guioptions-=m
+set guioptions-=L
+set guioptions-=r
+set guioptions-=b
+" }}}
 
-" È¡Ïû²Ëµ¥À¸ºÍµ¼º½À¸  
-set guioptions-=m  
-set guioptions-=T  
-" È¥³ı×óÓÒÁ½±ß¹ö¶¯Ìõ
-set go-=r
-set go-=L
-" ÉèÖÃË®Æ½ĞĞÊıºÍÊúÖ±ÁĞÊı  
-set lines=30  
-set columns=90
-
-" ×ÜÊÇÏÔÊ¾×´Ì¬À¸
-set laststatus=2
-" ÏÔÊ¾¹â±êµ±Ç°Î»ÖÃ
-set ruler
-" ¿ªÆôĞĞºÅÏÔÊ¾
-set number
-" ¸ßÁÁÏÔÊ¾µ±Ç°ĞĞ/ÁĞ
-set cursorline
-set cursorcolumn
-" ¸ßÁÁÏÔÊ¾ËÑË÷½á¹û
-set hlsearch
-"×Ô¶¯»»ĞĞÕû´Ê»»ĞĞ
-set wrap
-set linebreak
-"×Ô¶¯ÉèÖÃµ±Ç°Ä¿Â¼ÎªÕıÔÚ±à¼­µÄÄ¿Â¼
-set autochdir     
-"ÔÚ¹â±ê½Ó½üµ×¶Ë»ò¶¥¶ËÊ±£¬×Ô¶¯ÏÂ¹ö»òÉÏ¹ö
-set scrolloff=10     
-
-set tenc=utf-8
-set encoding=utf-8
-set fileencodings=utf-8,chinese,latin-1
-if has("win32")
-    set fileencoding=chinese
-else
-    set fileencoding=utf-8
-endif
-"½â¾ö²Ëµ¥ÂÒÂë
-source $VIMRUNTIME/delmenu.vim
-source $VIMRUNTIME/menu.vim
-"½â¾öconsleÊä³öÂÒÂë
-language messages zh_CN.utf-8
-
-
-" ¿ªÆôÊµÊ±ËÑË÷¹¦ÄÜ
-set incsearch
-" ËÑË÷Ê±´óĞ¡Ğ´²»Ãô¸Ğ
-set ignorecase
-" ¹Ø±Õ¼æÈİÄ£Ê½
-set nocompatible
-" Ã»ÓĞ°Ë½øÖÆ
-set nrformats=
-" vim ×ÔÉíÃüÁîĞĞÄ£Ê½ÖÇÄÜ²¹È«
-set wildmenu
-"ÉèÖÃµ±ÎÄ¼şÔÚÍâ²¿±»ĞŞ¸Ä£¬×Ô¶¯¸üĞÂ¸ÃÎÄ¼ş
-set autoread         
-"ÉèÖÃ²»Éú³É±¸·İÎÄ¼ş
-set nobackup   
-
-" Ëõ½ø
-" ×ÔÊÊÓ¦²»Í¬ÓïÑÔµÄÖÇÄÜËõ½ø
-filetype indent on
-" ½«ÖÆ±í·ûÀ©Õ¹Îª¿Õ¸ñ
-set expandtab
-" ÉèÖÃ±à¼­Ê±ÖÆ±í·ûÕ¼ÓÃ¿Õ¸ñÊı
+" Format {{{
+set autoindent
+set smartindent
 set tabstop=4
-" ÉèÖÃ¸ñÊ½»¯Ê±ÖÆ±í·ûÕ¼ÓÃ¿Õ¸ñÊı
 set shiftwidth=4
-" ÈÃ vim °ÑÁ¬ĞøÊıÁ¿µÄ¿Õ¸ñÊÓÎªÒ»¸öÖÆ±í·û
 set softtabstop=4
-"ÍË¸ñ¼ü²»ÄÜÓÃÎÊÌâ
-set backspace=indent,eol,start
-
+set expandtab
+"è‡ªåŠ¨æŠ˜å 
+"set foldmethod=indent
 syntax on
-syntax enable
-set autoread
+" }}}
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                               keyboard-binding                             "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Keyboard setting {{{
 
-"Vim ÓëÏµÍ³¼ôÇĞ°å¹²Ïí
-set clipboard=unnamed
-" ÉèÖÃ¿ì½İ¼ü½«Ñ¡ÖĞÎÄ±¾¿é¸´ÖÆÖÁÏµÍ³¼ôÌù°å
-vnoremap <Leader>y "+y
-" ÉèÖÃ¿ì½İ¼ü½«ÏµÍ³¼ôÌù°åÄÚÈİÕ³ÌùÖÁvim
-nmap <Leader>p "+p
+"set my leader
+"let mapleader=";"
+let mapleader="\<Space>"
 
-" ¶¨Òå¿ì½İ¼ü¹Ø±Õµ±Ç°·Ö¸î´°¿Ú
-nmap <Leader>q :q<CR>
-" ¶¨Òå¿ì½İ¼ü±£´æµ±Ç°´°¿ÚÄÚÈİ
-nmap <Leader>w :w<CR>
-" ¶¨Òå¿ì½İ¼ü±£´æËùÓĞ´°¿ÚÄÚÈİ²¢ÍË³ö vim
-nmap <Leader>WQ :wa<CR>:q<CR>
-" ²»×öÈÎºÎ±£´æ£¬Ö±½ÓÍË³ö vim
-nmap <Leader>Q :qa!<CR>
+"æ‰“å¼€vimrcå¿«æ·é”®
+nnoremap <leader>ev  :split $MYVIMRC<cr>
+"è¿è¡Œå½“å‰vimrcè„šæœ¬
+nnoremap<leader>sv  :source $MYVIMRC<cr>
+
+" æ‰“å¼€å½“å‰ç›®å½• windows
+nmap <silent> <leader>ex :!start explorer %:p:h<CR>
+" æ‰“å¼€å½“å‰ç›®å½•CMD
+nmap <silent> <leader>cmd :!start cmd /k cd %:p:h<cr>
+
+" å¤åˆ¶å½“å‰æ–‡ä»¶/è·¯å¾„åˆ°å‰ªè´´æ¿
+nmap ,fn :let @*=substitute(expand("%"), "/", "\\", "g")<CR>
+nmap ,fp :let @*=substitute(expand("%:p"), "/", "\\", "g")<CR>
+
+" ä¸€é”®è¿è¡Œ
+"ç¼–è¯‘è¿è¡Œ
+map <F5> :call CompileRunGcc()<CR>  
+func! CompileRunGcc()  
+    exec "w"  
+    if &filetype == 'c'  
+        exec "!g++ % -o %<"  
+        exec "! %<"  
+    elseif &filetype == 'cpp'  
+        exec "!g++ % -o %<"  
+        exec "! %<"  
+    elseif &filetype == 'java'   
+        exec "!javac %"   
+        exec "!java %<"  
+    elseif &filetype == 'py'  
+        exec "!python"
+    elseif &filetype == 'sh'  
+        :!%  
+    endif  
+endfunc 
+" }}}
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                              Plug                                     "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plug List {{{
+call plug#begin('D:\Editor\Vim\vimfiles\plugged')
+
+filetype plugin indent on
+
+" +beautiful {{{
+"ç¾åŒ–çŠ¶æ€æ 
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+" airline-setting {{{
+"åŠ å¼ºç‰ˆçŠ¶æ€æ 
+let g:airline_theme='molokai'
+"ä½¿ç”¨powerlineæ‰“è¿‡è¡¥ä¸çš„å­—ä½“
+let g:airline_powerline_fonts = 1
+"å…³é—­çŠ¶æ€æ˜¾ç¤ºç©ºç™½ç¬¦å·è®¡æ•°,è¿™ä¸ªå¯¹æˆ‘ç”¨å¤„ä¸å¤§"
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#whitespace#symbol = '!'
+"å¼€å¯tabline
+let g:airline#extensions#tabline#enabled = 1
+"tablineä¸­bufferæ˜¾ç¤ºç¼–å·
+let g:airline#extensions#tabline#buffer_nr_show = 1
+" }}}
+
+"æ‰“å¼€ç•Œé¢
+Plug 'mhinz/vim-startify'
+"theme color
+Plug 'flazz/vim-colorschemes'
+Plug 'tomasr/molokai'
+Plug 'morhetz/gruvbox'
+Plug 'nanotech/jellybeans.vim'
+" theme-setting {{{
+" é…è‰²æ–¹æ¡ˆ
+set background=dark
+"colorscheme jellybeans
+"colorscheme molokai
+"colorscheme desert
+colorscheme gruvbox
+" }}}
+
+"ä¸­æ–‡å¸®åŠ©æ–‡æ¡£
+Plug 'yianwillis/vimcdoc'
+"}}}
+
+" +programming {{{
+
+"æ–‡ä»¶æ ‘
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+" æ–‡ä»¶æ ‘è®¾ç½® {{{
+" å…³é—­NERDTreeå¿«æ·é”®
+map <leader>t :NERDTreeToggle<CR>
+""å½“NERDTreeä¸ºå‰©ä¸‹çš„å”¯ä¸€çª—å£æ—¶è‡ªåŠ¨å…³é—­
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+""ä¿®æ”¹æ ‘çš„æ˜¾ç¤ºå›¾æ ‡
+let g:NERDTreeDirArrowExpandable = 'â–º'
+let g:NERDTreeDirArrowCollapsible = 'â–¼'
+let NERDTreeAutoCenter=1
+" æ˜¾ç¤ºè¡Œå·
+let NERDTreeShowLineNumbers=1
+" æ˜¯å¦æ˜¾ç¤ºéšè—æ–‡ä»¶
+let NERDTreeShowHidden=1
+" è®¾ç½®å®½åº¦
+let NERDTreeWinSize=25
+" åœ¨ç»ˆç«¯å¯åŠ¨vimæ—¶ï¼Œå…±äº«NERDTree
+let g:nerdtree_tabs_open_on_console_startup=1
+" å¿½ç•¥ä¸€ä¸‹æ–‡ä»¶çš„æ˜¾ç¤º
+let NERDTreeIgnore=['\.pyc','\~$','\.swp']
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "âœ¹",
+    \ "Staged"    : "âœš",
+    \ "Untracked" : "âœ­",
+    \ "Renamed"   : "âœ",
+    \ "Unmerged"  : "â•",
+    \ "Deleted"   : "âœ–",
+    \ "Dirty"     : "âœ—",
+    \ "Clean"     : "âœ”ï¸",
+    \ 'Ignored'   : 'â˜’',
+    \ "Unknown"   : "?"
+    \ }
+" }}}
+
+"æ–‡ä»¶æœç´¢
+Plug 'Yggdroot/LeaderF'
+
+"å¼‚æ­¥è¯­æ³•æ£€æŸ¥
+Plug 'w0rp/ale'
+" ale-setting {{{
+let g:ale_set_highlights = 0
+"è‡ªå®šä¹‰errorå’Œwarningå›¾æ ‡
+let g:ale_sign_error = 'âœ—'
+let g:ale_sign_warning = 'âš¡'
+"åœ¨vimè‡ªå¸¦çš„çŠ¶æ€æ ä¸­æ•´åˆale
+let g:ale_statusline_format = ['âœ— %d', 'âš¡ %d', 'âœ” OK']
+"æ˜¾ç¤ºLinteråç§°,å‡ºé”™æˆ–è­¦å‘Šç­‰ç›¸å…³ä¿¡æ¯
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+"æ‰“å¼€æ–‡ä»¶æ—¶ä¸è¿›è¡Œæ£€æŸ¥
+let g:ale_lint_on_enter = 0
+
+"æ™®é€šæ¨¡å¼ä¸‹ï¼Œspå‰å¾€ä¸Šä¸€ä¸ªé”™è¯¯æˆ–è­¦å‘Šï¼Œsnå‰å¾€ä¸‹ä¸€ä¸ªé”™è¯¯æˆ–è­¦å‘Š
+nmap sp <Plug>(ale_previous_wrap)
+nmap sn <Plug>(ale_next_wrap)
+"<Leader>sè§¦å‘/å…³é—­è¯­æ³•æ£€æŸ¥
+nmap <Leader>s :ALEToggle<CR>
+"<Leader>dæŸ¥çœ‹é”™è¯¯æˆ–è­¦å‘Šçš„è¯¦ç»†ä¿¡æ¯
+nmap <Leader>d :ALEDetail<CR>
+"ä½¿ç”¨clangå¯¹cå’Œc++è¿›è¡Œè¯­æ³•æ£€æŸ¥ï¼Œå¯¹pythonä½¿ç”¨pylintè¿›è¡Œè¯­æ³•æ£€æŸ¥
+let g:ale_linters = {
+\   'c++': ['clang'],
+\   'c': ['clang'],
+\   'python': ['pylint'],
+\}
+" }}}
+
+"æ‹¬å·è¡¥å…¨
+Plug 'jiangmiao/auto-pairs'
+
+"è¡¥å…¨
+Plug 'maralla/completor.vim'
+Plug 'maralla/completor-neosnippet'
+" è¡¥å…¨è®¾ç½® {{{
+"ä½¿ç”¨tabè¡¥å…¨
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
+" }}}
+
+"æ³¨é‡Š
+Plug 'scrooloose/nerdcommenter'
+" æ³¨é‡Šè¯´æ˜ {{{
+"<leader>cc   åŠ æ³¨é‡Š
+"<leader>cu   è§£å¼€æ³¨é‡Š
+"<leader>c<space>  åŠ ä¸Š/è§£å¼€æ³¨é‡Š, æ™ºèƒ½åˆ¤æ–­
+"<leader>cy   å…ˆå¤åˆ¶, å†æ³¨è§£(på¯ä»¥è¿›è¡Œé»è´´)
+" æ³¨é‡Šçš„æ—¶å€™è‡ªåŠ¨åŠ ä¸ªç©ºæ ¼, å¼ºè¿«ç—‡å¿…é…
+"let g:NERDSpaceDelims=1
+" }}}
+
+"}}}
+
+" +lang {{{
+
+"}}}
+
+call plug#end()
+" }}}
 
 
