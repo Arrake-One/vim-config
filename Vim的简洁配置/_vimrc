@@ -28,7 +28,7 @@ set nobackup
 set noswapfile
 set history=1024
 "自动设置当前目录为正在编辑的目录
-cd D:\Code\VimCode
+cd D:\Code
 set autochdir
 autocmd BufEnter * silent! lcd %:p:h:gs/ /\\ /
 
@@ -65,6 +65,7 @@ set fenc=
 " GUI {{{
 " 设置 gvim 显示字体
 "set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h12
+"set guifont=Fira_Code:h12
 set guifont=Fira_Code:h12
 set gfw=幼圆:h12:cGB2312
 
@@ -125,6 +126,7 @@ nmap ,fn :let @*=substitute(expand("%"), "/", "\\", "g")<CR>
 nmap ,fp :let @*=substitute(expand("%:p"), "/", "\\", "g")<CR>
 
 " 一键运行
+"map <F5> :w<cr>:!python %<cr>  
 map <F5> :call CompileRunGcc()<CR>  
 func! CompileRunGcc()  
     exec "w"  
@@ -137,11 +139,12 @@ func! CompileRunGcc()
     elseif &filetype == 'java'   
         exec "!javac %"   
         exec "!java %<"
+    elseif &filetype == 'python'
+        exec "!python %"
     elseif &filetype == 'sh'  
         :!%  
     endif  
 endfunc 
-map <F5> :w<cr>:!python %<cr>  
 
 
 " }}}
@@ -190,6 +193,9 @@ set background=dark
 colorscheme gruvbox
 " }}}
 
+" 图标
+"Plug 'ryanoasis/vim-devicons'
+
 "中文帮助文档
 Plug 'yianwillis/vimcdoc'
 "}}}
@@ -233,7 +239,7 @@ let g:NERDTreeIndicatorMapCustom = {
 " }}}
 
 "文件搜索
-Plug 'Yggdroot/LeaderF'
+Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat' }
 
 "异步语法检查
 Plug 'w0rp/ale'
@@ -258,7 +264,7 @@ nmap sn <Plug>(ale_next_wrap)
 nmap <Leader>s :ALEToggle<CR>
 "<Leader>d查看错误或警告的详细信息
 nmap <Leader>d :ALEDetail<CR>
-"使用clang对c和c++进行语法检查，对python使用pylint进行语法检查
+"使用clang对c和c++进行语法检查，对python使用flake8进行语法检查
 let g:ale_linters = {
 \   'c++': ['clang'],
 \   'c': ['clang'],
@@ -272,11 +278,13 @@ Plug 'jiangmiao/auto-pairs'
 "补全
 Plug 'maralla/completor.vim'
 Plug 'maralla/completor-neosnippet'
+Plug 'Shougo/neosnippet-snippets'
 " 补全设置 {{{
 "使用tab补全
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
+
 " }}}
 
 "注释
@@ -295,10 +303,24 @@ Plug 'scrooloose/nerdcommenter'
 " +lang {{{
 
 " markdown
-Plug 'plasticboy/vim-markdown'
+Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 
-Plug 'python-mode/python-mode', { 'branch': 'develop' }
+" python
+Plug 'python-mode/python-mode', { 'for': 'python' }
 let g:pymode_python = 'python3'
+
+" html
+Plug 'othree/html5.vim',       { 'for': 'html' }
+Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }
+Plug 'mattn/emmet-vim',        { 'for': [ 'html', 'vue', 'css' ] }
+
+" c-c++
+Plug 'rhysd/vim-clang-format',           { 'for': [ 'c', 'cpp' ] }
+Plug 'octol/vim-cpp-enhanced-highlight', { 'for': [ 'c', 'cpp' ] }
+
+" javaScript
+Plug 'pangloss/vim-javascript',  { 'for': ['javascript'] }
+Plug 'neoclide/vim-jsx-improve', { 'for': ['javascript', 'javascript.jsx'] }
 
 "}}}
 
