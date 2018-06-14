@@ -101,7 +101,8 @@ set shiftwidth=4
 set softtabstop=4
 set expandtab
 "自动折叠
-set foldmethod=marker
+"set foldmethod=marker
+set nofoldenable
 syntax on
 " }}}
 
@@ -140,7 +141,7 @@ func! CompileRunGcc()
         exec "!javac %"   
         exec "!java %<"
     elseif &filetype == 'python'
-        exec "!python %"
+        exec "!pythonvim %"
     elseif &filetype == 'sh'  
         :!%  
     endif  
@@ -306,8 +307,8 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 
 " python
-Plug 'python-mode/python-mode', { 'for': 'python' }
-let g:pymode_python = 'python3'
+"Plug 'python-mode/python-mode', { 'for': 'python' }
+"let g:pymode_python = 'python3'
 
 " html
 Plug 'othree/html5.vim',       { 'for': 'html' }
