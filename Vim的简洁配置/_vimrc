@@ -1,188 +1,124 @@
+
 " =========================================
 " Preface
 " =========================================
 " {{{
 " Sections:
 "    -> BasicSettings
-"    -> AutoCommands
 "    -> KeyMappings
 "    -> Functions
 "    -> LoadPlugin
+"    -> PluginSettings
 " }}}
 
 " =========================================
 " BasicSettings
 " =========================================
-" {{{
-    " General {{{
-    set nocompatible
-    set nobackup
-    set noswapfile
-    set history=1024
+" Startup {{{
+filetype indent plugin on
 
-    " 默认文件保存
-    exec 'cd ' . fnameescape('D:\Code')
-    "自动设置当前目录为正在编辑的目录
-    set autochdir
-    autocmd BufEnter * silent! lcd %:p:h:gs/ /\\ /
-
-    set whichwrap=b,s,<,>,[,]
-    set nobomb
-    set backspace=indent,eol,start whichwrap+=<,>,[,]
-    " Vim 的默认寄存器和系统剪贴板共享
-    set clipboard+=unnamed
-    " 设置 alt 键不映射到菜单栏
-    set winaltkeys=no
-
-    "关闭提示音
-    set noeb
-    set vb t_vb=
-    " }}}
-
-    " Lang & Encoding {{{
-    set tenc=utf-8
-    set encoding=utf-8
-    set fileencodings=utf-8,chinese,latin-1
-    if has("win32")
-    set fileencoding=chinese
-    else
-    set fileencoding=utf-8
-    endif
-    "解决菜单乱码
-    source $VIMRUNTIME/delmenu.vim
-    source $VIMRUNTIME/menu.vim
-    "解决consle输出乱码
-    language messages zh_CN.utf-8
-    set fenc= 
-    " }}}
-
-    " GUI {{{
-    " 设置 gvim 显示字体
-    set gfw=幼圆:h12:cGB2312
-    set guifont=DroidSansMono_Nerd_Font_Mono:h12
-
-    set cursorline
-    set hlsearch
-    " 开启实时搜索功能
-    set incsearch
-    " 搜索时大小写不敏感
-    set ignorecase
-    set number
-    "Show related row numbers
-    set relativenumber
-    "在光标接近底端或顶端时，自动下滚或上滚
-    set scrolloff=10  
-    " 窗口大小
-    set lines=25 columns=80
-    " 分割出来的窗口位于当前窗口下边/右边
-    set splitbelow
-    set splitright
-    "不显示工具/菜单栏
-    set guioptions-=T
-    set guioptions-=m
-    set guioptions-=L
-    set guioptions-=r
-    set guioptions-=b
-    " }}}
-
-    " Format {{{
-    set autoindent
-    set smartindent
-    set tabstop=4
-    set shiftwidth=4
-    set softtabstop=4
-    set expandtab
-    "自动折叠
-    "set foldmethod=marker
-    set nofoldenable
-    syntax on
-    " }}}
+" vim 文件折叠方式为 marker
+augroup ft_vim
+    au!
+    " 打开文件总是定位到上次编辑的位置
+    autocmd BufReadPost *
+      \ if line("'\"") > 1 && line("'\"") <= line("$") |
+      \   exe "normal! g`\"" |
+      \ endif
+augroup END
 " }}}
 
-" =========================================
-" autoCommands
-" =========================================
-" {{{
-    " DisableAutoComment: 禁止自动插入注释
-    " {{{
-    augroup DisableAutoComment
-        autocmd!
-        autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-    augroup END
-    " }}}
+" General {{{
+set nocompatible
+set nobackup
+set noswapfile
+set history=1024
+"自动设置当前目录为正在编辑的目录
+cd D:\Code
+set autochdir
+autocmd BufEnter * silent! lcd %:p:h:gs/ /\\ /
 
-    " LineNumber: 不同模式行号显示
-    " {{{
-    augroup LineNumber
-        autocmd!
-        autocmd InsertEnter * :set norelativenumber number
-        autocmd InsertLeave * :set relativenumber
-    augroup END
-    " }}}
+set whichwrap=b,s,<,>,[,]
+set nobomb
+set backspace=indent,eol,start whichwrap+=<,>,[,]
+" Vim 的默认寄存器和系统剪贴板共享
+set clipboard+=unnamed
+" 设置 alt 键不映射到菜单栏
+set winaltkeys=no
+
+"关闭提示音
+set noeb
+set vb t_vb=
 " }}}
 
-" =========================================
-" KeyMappings
-" =========================================
-" {{{
-
-    "set my leader
-    "let mapleader=";"
-    let mapleader="\<Space>"
-
-    " 清楚搜索高亮
-    inoremap <silent> <esc> <Esc>:noh<CR>
-    nnoremap <silent> <esc> <Esc>:noh<CR>
-    " 行首和行末快捷键
-    noremap H ^
-    noremap L $
-    " U 为 redo
-    noremap U <C-r>
-    " 查找时将结果置于屏幕中央
-    nnoremap <silent> n  nzz
-    nnoremap <silent> N  Nzz
-    nnoremap <silent> *  *zz
-    nnoremap <silent> #  #zz
-    nnoremap <silent> g* g*zz
+" Lang & Encoding {{{
+set tenc=utf-8
+set encoding=utf-8
+set fileencodings=utf-8,chinese,latin-1
+if has("win32")
+set fileencoding=chinese
+else
+set fileencoding=utf-8
+endif
+"解决菜单乱码
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+"解决consle输出乱码
+language messages zh_CN.utf-8
+set fenc= 
 " }}}
 
+" GUI {{{
+" 设置 gvim 显示字体
+set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h12
+"set guifont=Fira_Code:h12
+set gfw=幼圆:h12:cGB2312
+
+set cursorline
+set hlsearch
+" 开启实时搜索功能
+set incsearch
+" 搜索时大小写不敏感
+set ignorecase
+set number
+"Show related row numbers
+set relativenumber
+"在光标接近底端或顶端时，自动下滚或上滚
+set scrolloff=10  
+" 窗口大小
+set lines=24 columns=80
+" 分割出来的窗口位于当前窗口下边/右边
+set splitbelow
+set splitright
+"不显示工具/菜单栏
+set guioptions-=T
+set guioptions-=m
+set guioptions-=L
+set guioptions-=r
+set guioptions-=b
+" }}}
+
+" Format {{{
+set autoindent
+set smartindent
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+" }}}
+
+" Keyboard setting {{{
+
+"set my leader
+"let mapleader=";"
+let mapleader="\<Space>"
+
+" }}}
 
 " =========================================
 " Functions
 " =========================================
 " {{{
-    " QuickRun: 一键运行
-    " {{{
-    command! QuickRun call <SID>QuickRun()
-    noremap  <silent> <F5>       <Esc>:call <SID>QuickRun()<CR>
-    noremap! <silent> <F5>       <Esc>:call <SID>QuickRun()<CR>
-    function! s:QuickRun()
-        exec 'w'
-        if &filetype == 'html' || &filetype == 'htmldjango'
-            call <SID>BrowserOpen(expand("%:p"))
-        elseif &filetype == 'markdown'
-            :MarkdownPreview
-        elseif &filetype == 'tex'
-            :AsyncRun xelatex %
-        elseif &filetype == 'c'
-            :AsyncRun gcc -g % && ./a.out
-        elseif &filetype == 'cpp'
-            :AsyncRun g++ -g % && ./a.out
-        elseif &filetype == 'sh'
-            :AsyncRun bash %
-        elseif &filetype == 'python'
-            if has("unix")
-                " unix
-                :AsyncRun -raw python3 %
-            else
-                " windows
-                :AsyncRun -raw python %
-            endif
-        else
-            echo "Not supported filetype"
-        endif
-    endfunction
-    " }}}
 
     " FileExplore: 在文件浏览器中打开当前目录
     " {{{
@@ -194,30 +130,6 @@
     endfunction
     " }}}
 
-    " BrowserOpen: 打开文件或网址
-    " {{{
-    command! -nargs=+ BrowserOpen call <SID>BrowserOpen(<q-args>)
-    function! s:BrowserOpen(obj)
-        " windows(mingw)
-        if has('win32') || has('win64') || has('win32unix')
-            let l:cmd = 'rundll32 url.dll,FileProtocolHandler ' . a:obj
-        elseif has('mac') || has('macunix') || has('gui_macvim') || system('uname') =~? '^darwin'
-            let l:cmd = 'open ' . a:obj
-        elseif executable('xdg-open')
-            let l:cmd = 'xdg-open ' . a:obj
-        else
-            echoerr "No browser found, please contact the developer."
-        endif
-
-        if exists('*jobstart')
-            call jobstart(l:cmd)
-        elseif exists('*job_start')
-            call job_start(l:cmd)
-        else
-            call system(l:cmd)
-        endif
-    endfunction
-    " }}}
 " }}}
 
 " =========================================
@@ -233,7 +145,6 @@ filetype plugin indent on
     Plug 'vim-airline/vim-airline-themes'
     " airline-setting {{{
     "加强版状态栏
-    "let g:airline_theme='molokai'
     let g:airline_theme='gruvbox'
     "使用powerline打过补丁的字体
     let g:airline_powerline_fonts = 1
@@ -251,15 +162,11 @@ filetype plugin indent on
 
     "theme color
     Plug 'flazz/vim-colorschemes'
-    Plug 'tomasr/molokai'
     Plug 'morhetz/gruvbox'
-    Plug 'nanotech/jellybeans.vim'
     " theme-setting {{{
     " 配色方案
     " set background=dark
     set background=light
-    "colorscheme jellybeans
-    "colorscheme molokai
     colorscheme gruvbox
     " }}}
     " 图标
@@ -268,51 +175,10 @@ filetype plugin indent on
     Plug 'yianwillis/vimcdoc'
     "}}}
 
-    " +programming {{{
-    "文件树
-    Plug 'scrooloose/nerdtree'
-    Plug 'Xuyuanp/nerdtree-git-plugin'
 
-    "文件搜索
-    Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat' }
-    "异步语法检查
-    Plug 'w0rp/ale'
-    "括号补全
-    Plug 'jiangmiao/auto-pairs'
-    "补全
-    Plug 'maralla/completor.vim'
-    Plug 'maralla/completor-neosnippet'
-    Plug 'Shougo/neosnippet-snippets'
-    " 补全设置 {{{
-    "使用tab补全
-    inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-    inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
-    " }}}
-    "注释
-    Plug 'scrooloose/nerdcommenter'
-    "}}}
-
-    " +lang {{{
-    " markdown
-    Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
-    " python
-    "Plug 'python-mode/python-mode', { 'for': 'python' }
-    "let g:pymode_python = 'python3'
-    " html
-    Plug 'othree/html5.vim',       { 'for': 'html' }
-    Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }
-    Plug 'mattn/emmet-vim',        { 'for': [ 'html', 'vue', 'css' ] }
-    " c-c++
-    Plug 'rhysd/vim-clang-format',           { 'for': [ 'c', 'cpp' ] }
-    Plug 'octol/vim-cpp-enhanced-highlight', { 'for': [ 'c', 'cpp' ] }
-    " javaScript
-    Plug 'pangloss/vim-javascript',  { 'for': ['javascript'] }
-    Plug 'neoclide/vim-jsx-improve', { 'for': ['javascript', 'javascript.jsx'] }
-    "}}}
-
-    call plug#end()
+call plug#end()
 " }}}
+
 
 " =========================================
 " PluginSettings
@@ -351,73 +217,4 @@ filetype plugin indent on
     let g:startify_custom_header = map(g:ascii + startify#fortune#boxed(), '"    ".v:val')
     " }}}
 
-    " ale-setting {{{
-    let g:ale_set_highlights = 0
-    "自定义error和warning图标
-    let g:ale_sign_error = '✗'
-    let g:ale_sign_warning = '⚡'
-    "在vim自带的状态栏中整合ale
-    let g:ale_statusline_format = ['✗ %d', '⚡ %d', '✔ OK']
-    "显示Linter名称,出错或警告等相关信息
-    let g:ale_echo_msg_error_str = 'E'
-    let g:ale_echo_msg_warning_str = 'W'
-    let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-    "打开文件时不进行检查
-    let g:ale_lint_on_enter = 0
-    "普通模式下，sp前往上一个错误或警告，sn前往下一个错误或警告
-    nmap sp <Plug>(ale_previous_wrap)
-    nmap sn <Plug>(ale_next_wrap)
-    "<Leader>s触发/关闭语法检查
-    nmap <Leader>s :ALEToggle<CR>
-    "<Leader>d查看错误或警告的详细信息
-    nmap <Leader>d :ALEDetail<CR>
-    "使用clang对c和c++进行语法检查，对python使用flake8进行语法检查
-    let g:ale_linters = {
-    \   'c++': ['clang'],
-    \   'c': ['clang'],
-    \   'python': ['flake8'],
-    \}
-    " }}}
 
-
-    " 注释说明 {{{
-    "<leader>cc   加注释
-    "<leader>cu   解开注释
-    "<leader>c<space>  加上/解开注释, 智能判断
-    "<leader>cy   先复制, 再注解(p可以进行黏贴)
-    " 注释的时候自动加个空格, 强迫症必配
-    "let g:NERDSpaceDelims=1
-    " }}}
-
-    " 文件树设置 {{{
-    " 关闭NERDTree快捷键
-    map <leader>t :NERDTreeToggle<CR>
-    ""当NERDTree为剩下的唯一窗口时自动关闭
-    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-    ""修改树的显示图标
-    let g:NERDTreeDirArrowExpandable = '►'
-    let g:NERDTreeDirArrowCollapsible = '▼'
-    let NERDTreeAutoCenter=1
-    " 显示行号
-    let NERDTreeShowLineNumbers=1
-    " 是否显示隐藏文件
-    let NERDTreeShowHidden=1
-    " 设置宽度
-    let NERDTreeWinSize=25
-    " 在终端启动vim时，共享NERDTree
-    let g:nerdtree_tabs_open_on_console_startup=1
-    " 忽略一下文件的显示
-    let NERDTreeIgnore=['\.pyc','\~$','\.swp']
-    let g:NERDTreeIndicatorMapCustom = {
-        \ "Modified"  : "✹",
-        \ "Staged"    : "✚",
-        \ "Untracked" : "✭",
-        \ "Renamed"   : "➜",
-        \ "Unmerged"  : "═",
-        \ "Deleted"   : "✖",
-        \ "Dirty"     : "✗",
-        \ "Clean"     : "✔︎",
-        \ 'Ignored'   : '☒',
-        \ "Unknown"   : "?"
-        \ }
-    " }}}
