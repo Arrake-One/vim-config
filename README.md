@@ -1,4 +1,4 @@
-win10 下的neovim和Vim配置
+win10下Vim配置
 
 # 说明
 都是简单配置。
